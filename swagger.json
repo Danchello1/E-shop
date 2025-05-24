@@ -1,0 +1,211 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "E-Shop API Example",
+    "description": "Примеры использования методов GET, POST, PUT, PATCH, DELETE",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/mycompany-159-682/hometask_10/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "paths": {
+    "/cart/add": {
+      "post": {
+        "tags": [
+          "cart"
+        ],
+        "summary": "Добавить товар в корзину",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cart_add_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Товар добавлен"
+          },
+          "400": {
+            "description": "Ошибка в данных"
+          },
+          "401": {
+            "description": "Требуется авторизация"
+          }
+        }
+      }
+    },
+    "/cart/{item_id}": {
+      "delete": {
+        "tags": [
+          "cart"
+        ],
+        "summary": "Удалить товар из корзины",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Товар удалён"
+          },
+          "401": {
+            "description": "Требуется авторизация"
+          },
+          "404": {
+            "description": "Товар не найден"
+          }
+        }
+      }
+    },
+    "/get-sales": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Получить список акционных товаров",
+        "responses": {
+          "200": {
+            "description": "Успешный ответ со списком товаров"
+          },
+          "404": {
+            "description": "Товары не найдены"
+          }
+        }
+      }
+    },
+    "/reviews/{review_id}/moderate": {
+      "patch": {
+        "tags": [
+          "reviews"
+        ],
+        "summary": "Изменить статус отзыва",
+        "parameters": [
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/review_id_moderate_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Статус обновлён"
+          },
+          "400": {
+            "description": "Ошибка запроса"
+          },
+          "401": {
+            "description": "Неавторизованный доступ"
+          },
+          "404": {
+            "description": "Отзыв не найден"
+          }
+        }
+      }
+    },
+    "/user/delivery-address": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Обновить адрес доставки",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user_deliveryaddress_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Адрес успешно обновлён"
+          },
+          "400": {
+            "description": "Неверные данные"
+          },
+          "401": {
+            "description": "Неавторизованный пользователь"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "cart_add_body": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "integer"
+          },
+          "quantity": {
+            "type": "integer"
+          }
+        }
+      },
+      "review_id_moderate_body": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected"
+            ]
+          }
+        }
+      },
+      "user_deliveryaddress_body": {
+        "type": "object",
+        "properties": {
+          "apartment": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "house": {
+            "type": "string"
+          },
+          "postal_code": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
